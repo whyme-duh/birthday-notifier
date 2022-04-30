@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "279754507306",
+    "project_id": "birthday-notifier-a12d7",
+    "storage_bucket": "birthday-notifier-a12d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279754507306:android:7f6c1c90689e26f3fc2f53",
+        "android_client_info": {
+          "package_name": "com.notifier.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279754507306-45dd024f5iubacv8l9v7qco2ooorl5gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCylwaFNx4U87c46N5PhDS6S9_QjnmuLH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279754507306-45dd024f5iubacv8l9v7qco2ooorl5gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

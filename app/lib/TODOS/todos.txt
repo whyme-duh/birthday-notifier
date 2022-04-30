@@ -1,0 +1,8 @@
+1. Switch between the add page and the friendlist page according to the data present in the database
+2. Days remaining for the birthday must be reprogrammed
+3. UI enhancement
+4. Storing different data from different users
+5. Date input format. Such as day must be between 1 to 31 , month must 1 to 12 and year must in 4 digited and 	validation must be added into the date
+6. Dialog UI must be developed.
+7. Horoscope finder must be programmed
+8. Age Teller must be checked.
