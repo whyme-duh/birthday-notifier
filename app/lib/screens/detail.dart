@@ -28,6 +28,7 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: BgColor,
           actions: [
             Row(
@@ -42,7 +43,11 @@ class DetailScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                       color: Color.fromRGBO(122, 118, 118, 0.2),
                     ),
-                    child: Center(child: Text("Edit")),
+                    child: Center(
+                        child: Text(
+                      "Edit",
+                      style: TextStyle(color: Colors.black),
+                    )),
                   ),
                 ),
                 SizedBox(

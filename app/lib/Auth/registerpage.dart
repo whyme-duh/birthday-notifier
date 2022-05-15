@@ -41,21 +41,23 @@ class _RegisterPageState extends State<RegisterPage> {
             Positioned(
               top: size.height * 0.05,
               left: size.width * 0.05,
-              child: InkWell(
-                  onTap: () {
-                    widget.toggleView();
-                  },
-                  child: Icon(Icons.arrow_back, color: Colors.black)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        widget.toggleView();
+                      },
+                      child: Icon(Icons.arrow_back, color: Colors.black)),
+                  Text(
+                    "Register Your Account",
+                    style: GoogleFonts.baiJamjuree(
+                        textStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                  )
+                ],
+              ),
             ),
-            Positioned(
-                top: size.height * 0.3,
-                left: size.width * 0.3,
-                child: Text(
-                  "Register Your Account",
-                  style: GoogleFonts.baiJamjuree(
-                      textStyle:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                )),
             Positioned(
                 top: size.height * 0.2,
                 left: size.height * 0.05,

@@ -1,6 +1,7 @@
 import 'package:app/Auth/AuthService.dart';
 import 'package:app/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,8 +48,9 @@ class _LoginPageState extends State<LoginPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               TextFormField(
-                                validator: (val) =>
-                                    val!.isEmpty ? "Enter proper email" : null,
+                                validator: (val) => val!.isEmpty
+                                    ? "This field cannot be empty."
+                                    : null,
                                 decoration: InputDecoration(
                                   focusColor: Colors.white,
                                   border: OutlineInputBorder(
@@ -66,8 +68,8 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 20,
                               ),
                               TextFormField(
-                                  validator: (val) => val!.length < 6
-                                      ? "Password does not match"
+                                  validator: (val) => val!.isEmpty
+                                      ? "This field cannot be empty."
                                       : null,
                                   obscureText: _isHidden,
                                   decoration: InputDecoration(
@@ -98,6 +100,9 @@ class _LoginPageState extends State<LoginPage> {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() {
                                       isLoading = true;
+                                      SpinKitChasingDots(
+                                        color: Colors.black,
+                                      );
                                     });
                                     dynamic result =
                                         await _auth.signInEmailPassword(
@@ -105,8 +110,9 @@ class _LoginPageState extends State<LoginPage> {
                                     if (result == null) {
                                       setState(() {
                                         Fluttertoast.showToast(
+                                            backgroundColor: Colors.red,
                                             msg:
-                                                "Given Credentials Does not match. Try Again!");
+                                                "Given Credentials does not match. Try Again!");
                                       });
                                     }
                                   }
@@ -157,14 +163,14 @@ class _LoginPageState extends State<LoginPage> {
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
-                                  color: FontColor)),
+                                  color: WhiteFontColor)),
                         ),
                         Text("Create an account",
                             style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
-                              color: FontColor,
+                              color: WhiteFontColor,
                             )))
                       ],
                     ),

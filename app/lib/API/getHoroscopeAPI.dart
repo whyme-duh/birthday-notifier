@@ -4,6 +4,8 @@ import 'package:app/screens/horoscopeFinder.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
+Map horoscopeList = {};
+
 Future<String> getHorosocope(String sign) async {
   try {
     String main_url =
@@ -13,11 +15,17 @@ Future<String> getHorosocope(String sign) async {
       'X-RapidAPI-Key': '15f0dba1b2mshcb0f9e851acb94bp1d2886jsn4c99a5146b84'
     });
     Map detail = jsonDecode(res.body);
-
+    horoscopeList.addAll({'${detail['$sign']}': '${detail['Today']}'});
+    // print(horoscopeList);
+    // print('\n');
     return detail['$sign']['Today'];
   } catch (e) {
     return "Error occured! Try again.";
   }
+}
+
+void main() {
+  print(horoscopeList);
 }
 
 Future<String> getLoveMatching(String sign) async {

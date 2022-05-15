@@ -1,17 +1,20 @@
 import 'package:app/Auth/AuthService.dart';
+import 'package:app/Database/detailDB.dart';
 import 'package:app/Models/profile.dart';
 import 'package:app/functionality/function(adding).dart';
-import 'package:app/screens/agefinder.dart';
 import 'package:app/screens/detail.dart';
 import 'package:app/screens/horoscopeFinder.dart';
+import 'package:app/screens/notificationPage.dart';
 import 'package:app/shared/constants.dart';
 import 'package:app/testing/tst.dart';
-import 'package:app/widget.dart/drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
+import '../Widgets/drawer.dart';
 
 class FriendList extends StatefulWidget {
   @override
@@ -20,6 +23,20 @@ class FriendList extends StatefulWidget {
 
 class _FriendListState extends State<FriendList> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  var NameController = MaskTextInputFormatter(
+      mask: '################', filter: {"#": RegExp(r'[A-Z a-z]')});
+  var DateController = MaskTextInputFormatter(
+      mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')});
+  // var id = Uuid();
+  // final String NameId = id.v1();
+
+  AuthService user = AuthService();
+
+  DetailDB _detailDb = DetailDB(collectionName: "asdf");
+
+  String name = "";
+  String date = "";
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool hasInternet = false;
 
@@ -43,7 +60,6 @@ class _FriendListState extends State<FriendList> {
               ),
             ),
             DrawerMethods(title: "PROFILE", link: ProfilePage()),
-            DrawerMethods(title: "AGE FINDER", link: AgeFinder()),
             ListTile(
               title: InkWell(
                 onTap: () async {
@@ -126,7 +142,9 @@ class _FriendListState extends State<FriendList> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  addDialog(context);
+                                  addDialog(
+                                    context,
+                                  );
                                 },
                                 child: Container(
                                   width: 80,
@@ -140,8 +158,14 @@ class _FriendListState extends State<FriendList> {
                                 ),
                               ),
                               IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.notifications_on_outlined))
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyNotification()));
+                                  },
+                                  icon: Icon(Icons.notifications_outlined))
                             ],
                           ),
                         ],

@@ -1,8 +1,9 @@
 import 'package:app/API/getHoroscopeAPI.dart';
 import 'package:app/functionality/function(adding).dart';
-import 'package:app/widget.dart/appbar.dart';
+import 'package:app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   print(getHorosocope("Cancer"));
@@ -39,86 +40,99 @@ class _HoroscopeState extends State<Horoscope> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: TopBar(
-          appBar: AppBar(),
-          Icons: Icon(Icons.add),
-          func: () {
-            addDialog(context);
-          },
-          Heading: Text("HOROSCOPE")),
+      appBar: AppBar(
+        backgroundColor: BgColor,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: Stack(children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 5),
+        Positioned(
+          top: 0,
+          left: 0,
+          height: size.height * 0.15,
+          width: size.width,
           child: Container(
-            height: 50,
-            color: Colors.grey[100],
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            width: size.width,
+            height: size.height * 0.15,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(35),
+                    bottomRight: Radius.circular(35)),
+                color: BgColor),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('Today Date : ',
-                      style: TextStyle(fontSize: 15, letterSpacing: 2)),
-                  Text('$date-$month-$day',
-                      style: TextStyle(
-                          fontSize: 20,
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.bold))
+                  Text("Daily Horoscope",
+                      style: GoogleFonts.alegreya(
+                        textStyle: TextStyle(
+                            fontSize: 30,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.w900),
+                      ))
                 ],
               ),
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-          child: Expanded(
-            child: ListView.builder(
-              itemCount: sunSign.length,
-              itemBuilder: (context, index) {
-                return FutureBuilder<String>(
-                  future: getHorosocope(sunSign[index]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Center(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            width: size.width * 0.9,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.grey[100]),
+        Positioned(
+          left: 0,
+          top: size.height * 0.1,
+          right: 0,
+          height: size.height * 0.8,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: sunSign.length,
+                itemBuilder: (context, index) {
+                  return FutureBuilder<String>(
+                    future: getHorosocope(sunSign[index]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Center(
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${sunSign[index]}',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 2),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    '${snapshot.data}',
-                                    style: TextStyle(letterSpacing: 2),
-                                  )
-                                ],
-                              ),
-                            )),
-                      ));
-                    } else {
-                      return SpinKitChasingDots(
-                        size: 10,
-                        color: Colors.black,
-                      );
-                    }
-                  },
-                );
-              },
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: size.width * 0.9,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color.fromARGB(255, 203, 226, 238)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      '${sunSign[index]}',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 2),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      '${snapshot.data}',
+                                      style: TextStyle(letterSpacing: 2),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ));
+                      } else {
+                        return SpinKitChasingDots(
+                          size: 10,
+                          color: Colors.black,
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ),

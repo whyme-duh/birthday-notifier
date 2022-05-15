@@ -11,6 +11,7 @@ import 'friendlist.dart';
 
 void addDialog(BuildContext context) {
   final _formKey = GlobalKey<FormState>();
+  var size = MediaQuery.of(context).size;
   var NameController = MaskTextInputFormatter(
       mask: '################', filter: {"#": RegExp(r'[A-Z a-z]')});
   var DateController = MaskTextInputFormatter(
@@ -28,13 +29,19 @@ void addDialog(BuildContext context) {
   var alert = AlertDialog(
       title: Column(
         children: [
-          Text("Add Friend's Birthday"),
-          SizedBox(height: 5),
+          Text(
+            "Add Your Friend's Birthday",
+            style: TextStyle(
+                fontSize: 15, letterSpacing: 2, fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 10),
           Text("NOTE: PROPER DATE TO BE PROVIDED.",
-              style: TextStyle(fontSize: 10))
+              style: TextStyle(
+                  fontSize: 8, letterSpacing: 2, fontWeight: FontWeight.w700))
         ],
       ),
       content: Container(
+        width: size.width,
         child: Form(
           key: _formKey,
           child: Column(
@@ -59,7 +66,7 @@ void addDialog(BuildContext context) {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               TextFormField(
                 inputFormatters: [DateController],
@@ -87,7 +94,10 @@ void addDialog(BuildContext context) {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text("CANCEL")),
+                      child: Text(
+                        "CANCEL",
+                        style: TextStyle(color: Colors.red),
+                      )),
                   TextButton(
                       onPressed: () async {
                         AgeDifffernce(date);
@@ -154,3 +164,180 @@ void deleteDialog(BuildContext context, document) {
   ));
   showDialog(context: context, builder: (context) => alert);
 }
+
+
+// showModalBottomSheet(
+//                                       context: context,
+//                                       builder: (context) {
+//                                         return Expanded(
+//                                           child: Padding(
+//                                               padding: EdgeInsets.all(20),
+//                                               child: Column(
+//                                                   mainAxisSize:
+//                                                       MainAxisSize.max,
+//                                                   mainAxisAlignment:
+//                                                       MainAxisAlignment
+//                                                           .spaceBetween,
+//                                                   children: [
+//                                                     Column(
+//                                                       children: [
+//                                                         Text(
+//                                                           "Add Your Friend's Birthday",
+//                                                           style: TextStyle(
+//                                                               fontSize: 20,
+//                                                               letterSpacing: 2,
+//                                                               fontWeight:
+//                                                                   FontWeight
+//                                                                       .w800),
+//                                                         ),
+//                                                         SizedBox(height: 10),
+//                                                         Text(
+//                                                             "NOTE: PROPER DATE TO BE PROVIDED.",
+//                                                             style: TextStyle(
+//                                                                 fontSize: 10,
+//                                                                 letterSpacing:
+//                                                                     2)),
+//                                                       ],
+//                                                     ),
+//                                                     SizedBox(
+//                                                       height: 50,
+//                                                     ),
+//                                                     Column(
+//                                                       mainAxisSize:
+//                                                           MainAxisSize.max,
+//                                                       mainAxisAlignment:
+//                                                           MainAxisAlignment
+//                                                               .spaceBetween,
+//                                                       children: [
+//                                                         Container(
+//                                                           child: Form(
+//                                                             key: _formKey,
+//                                                             child: Column(
+//                                                               mainAxisSize:
+//                                                                   MainAxisSize
+//                                                                       .max,
+//                                                               mainAxisAlignment:
+//                                                                   MainAxisAlignment
+//                                                                       .spaceBetween,
+//                                                               children: <
+//                                                                   Widget>[
+//                                                                 TextFormField(
+//                                                                   validator:
+//                                                                       (val) {
+//                                                                     if (val!
+//                                                                         .isEmpty) {
+//                                                                       return "The field cant be empty";
+//                                                                     }
+//                                                                   },
+//                                                                   onChanged:
+//                                                                       (val) {
+//                                                                     name = val
+//                                                                         .toUpperCase();
+//                                                                   },
+//                                                                   inputFormatters: [
+//                                                                     NameController
+//                                                                   ],
+//                                                                   decoration:
+//                                                                       InputDecoration(
+//                                                                     border:
+//                                                                         OutlineInputBorder(),
+//                                                                     hintText:
+//                                                                         "Friend Name",
+//                                                                     labelText:
+//                                                                         "Name",
+//                                                                   ),
+//                                                                 ),
+//                                                                 SizedBox(
+//                                                                   height: 10,
+//                                                                 ),
+//                                                                 TextFormField(
+//                                                                   inputFormatters: [
+//                                                                     DateController
+//                                                                   ],
+//                                                                   keyboardType:
+//                                                                       TextInputType
+//                                                                           .datetime,
+//                                                                   validator:
+//                                                                       (val) {
+//                                                                     if (val!
+//                                                                         .isEmpty) {
+//                                                                       return "The field cant be empty";
+//                                                                     }
+//                                                                   },
+//                                                                   onChanged:
+//                                                                       (val) {
+//                                                                     date = val;
+//                                                                   },
+//                                                                   decoration: InputDecoration(
+//                                                                       border:
+//                                                                           OutlineInputBorder(),
+//                                                                       hintText:
+//                                                                           "YYYY-MM-DD",
+//                                                                       labelText:
+//                                                                           "FRIEND'S DOB"),
+//                                                                 ),
+//                                                                 SizedBox(
+//                                                                   height: 20,
+//                                                                 ),
+//                                                               ],
+//                                                             ),
+//                                                           ),
+//                                                         ),
+//                                                         Row(
+//                                                           mainAxisAlignment:
+//                                                               MainAxisAlignment
+//                                                                   .spaceAround,
+//                                                           children: [
+//                                                             TextButton(
+//                                                                 onPressed: () {
+//                                                                   Navigator.pop(
+//                                                                       context);
+//                                                                 },
+//                                                                 child: Text(
+//                                                                     "CANCEL")),
+//                                                             TextButton(
+//                                                                 onPressed:
+//                                                                     () async {
+//                                                                   AgeDifffernce(
+//                                                                       date);
+//                                                                   birthdayOrNot(
+//                                                                       date);
+//                                                                   RemainingDaysForBirthday(
+//                                                                       date);
+
+//                                                                   if (NameController.getMaskedText() != null &&
+//                                                                       DateController
+//                                                                               .getMaskedText() !=
+//                                                                           null &&
+//                                                                       _formKey
+//                                                                           .currentState!
+//                                                                           .validate() &&
+//                                                                       validateDate(
+//                                                                           date)) {
+//                                                                     _detailDb
+//                                                                         .takeDetail(
+//                                                                             name,
+//                                                                             date);
+//                                                                     Fluttertoast
+//                                                                         .showToast(
+//                                                                             msg:
+//                                                                                 "DETAIL HAS BEEN ADDED");
+//                                                                     Navigator.pop(
+//                                                                         context);
+//                                                                   } else {
+//                                                                     await Fluttertoast
+//                                                                         .showToast(
+//                                                                             msg:
+//                                                                                 "DETAIL YOU HAVE PROVIDED IS INCORRECT");
+//                                                                     Navigator.pop(
+//                                                                         context);
+//                                                                   }
+//                                                                 },
+//                                                                 child:
+//                                                                     Text("ADD"))
+//                                                           ],
+//                                                         )
+//                                                       ],
+//                                                     )
+//                                                   ])),
+//                                         );
