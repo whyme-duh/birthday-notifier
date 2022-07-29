@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
 
-import 'friendlist.dart';
 
 void addDialog(BuildContext context) {
   final _formKey = GlobalKey<FormState>();
@@ -54,6 +53,7 @@ void addDialog(BuildContext context) {
                   if (val!.isEmpty) {
                     return "The field cant be empty";
                   }
+                  return null;
                 },
                 onChanged: (val) {
                   name = val.toUpperCase();
@@ -75,6 +75,7 @@ void addDialog(BuildContext context) {
                   if (val!.isEmpty) {
                     return "The field cant be empty";
                   }
+                  return null;
                 },
                 onChanged: (val) {
                   date = val;
@@ -104,9 +105,7 @@ void addDialog(BuildContext context) {
                         birthdayOrNot(date);
                         RemainingDaysForBirthday(date);
 
-                        if (NameController.getMaskedText() != null &&
-                            DateController.getMaskedText() != null &&
-                            _formKey.currentState!.validate() &&
+                        if (_formKey.currentState!.validate() &&
                             validateDate(date)) {
                           _detailDb.takeDetail(name, date);
                           Fluttertoast.showToast(msg: "DETAIL HAS BEEN ADDED");
@@ -142,16 +141,19 @@ void deleteDialog(BuildContext context, document) {
               onPressed: () async {
                 await FirebaseFirestore.instance
                     .runTransaction((Transaction transaction) async {
-                  await transaction.delete(document.reference);
+                  transaction.delete(document.reference);
                   Navigator.pop(context);
+
 
                   return Fluttertoast.showToast(
                       msg: "The Data has Been Deleted");
                 });
+
               },
               child: Text("YES")),
           TextButton(
               onPressed: () {
+                
                 Navigator.pop(context);
               },
               child: Text(

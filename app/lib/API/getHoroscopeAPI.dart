@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'package:flutter/widgets.dart';
-import 'package:app/screens/horoscopeFinder.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 Map horoscopeList = {};
+bool hasInternet = false;
 
 Future<String> getHorosocope(String sign) async {
   try {
-    String main_url =
-        await "https://devbrewer-horoscope.p.rapidapi.com/today/short/${sign}";
-    Response res = await get(Uri.parse(main_url), headers: {
+    String mainUrl =
+        "https://devbrewer-horoscope.p.rapidapi.com/today/short/$sign";
+    Response res = await get(Uri.parse(mainUrl), headers: {
       'X-RapidAPI-Host': 'devbrewer-horoscope.p.rapidapi.com',
       'X-RapidAPI-Key': '15f0dba1b2mshcb0f9e851acb94bp1d2886jsn4c99a5146b84'
     });
@@ -18,7 +17,10 @@ Future<String> getHorosocope(String sign) async {
     horoscopeList.addAll({'${detail['$sign']}': '${detail['Today']}'});
     // print(horoscopeList);
     // print('\n');
-    return detail['$sign']['Today'];
+    if (hasInternet = await InternetConnectionChecker().hasConnection) {
+      return detail['$sign']['Today'];
+    }
+    return "No internet! Try again ";
   } catch (e) {
     return "Error occured! Try again.";
   }
@@ -30,9 +32,9 @@ void main() {
 
 Future<String> getLoveMatching(String sign) async {
   try {
-    String main_url =
-        await "https://devbrewer-horoscope.p.rapidapi.com/today/short/${sign}";
-    Response res = await get(Uri.parse(main_url), headers: {
+    String mainUrl =
+        "https://devbrewer-horoscope.p.rapidapi.com/today/short/$sign";
+    Response res = await get(Uri.parse(mainUrl), headers: {
       'X-RapidAPI-Host': 'devbrewer-horoscope.p.rapidapi.com',
       'X-RapidAPI-Key': '15f0dba1b2mshcb0f9e851acb94bp1d2886jsn4c99a5146b84'
     });

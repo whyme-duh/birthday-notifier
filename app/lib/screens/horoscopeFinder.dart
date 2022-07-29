@@ -1,5 +1,5 @@
 import 'package:app/API/getHoroscopeAPI.dart';
-import 'package:app/functionality/function(adding).dart';
+import 'package:app/Widgets/bottomNav.dart';
 import 'package:app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -40,6 +40,8 @@ class _HoroscopeState extends State<Horoscope> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar:
+          CustomButtomNavigationBar(size: size, item: "horoscope"),
       appBar: AppBar(
         backgroundColor: BgColor,
         elevation: 0,

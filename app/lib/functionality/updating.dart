@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:uuid/uuid.dart';
 
-import 'friendlist.dart';
 
 void updateDialog(BuildContext context, String newName, String newDate) {
   var id = Uuid();
@@ -37,6 +36,7 @@ void updateDialog(BuildContext context, String newName, String newDate) {
                 if (val!.isEmpty) {
                   return "The field cant be empty";
                 }
+                return null;
               },
               onChanged: (val) {
                 name = val.toUpperCase();
@@ -57,6 +57,7 @@ void updateDialog(BuildContext context, String newName, String newDate) {
                 if (val!.isEmpty) {
                   return "The field cant be empty";
                 }
+                return null;
               },
               onChanged: (val) {
                 date = val;
@@ -85,9 +86,7 @@ void updateDialog(BuildContext context, String newName, String newDate) {
                       birthdayOrNot(date);
                       RemainingDaysForBirthday(date);
 
-                      if (NameController.getMaskedText() != null &&
-                          DateController.getMaskedText() != null &&
-                          _formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         _detailDb.updateDetail(name, date);
                       }
                       Fluttertoast.showToast(msg: "DEATIL HAS BEEN UPADTED");

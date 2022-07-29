@@ -1,3 +1,4 @@
+import 'package:app/Widgets/bottomNav.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +16,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar: CustomButtomNavigationBar(
+        size: size,
+        item: "profile",
+      ),
       appBar: TopBar(
         appBar: AppBar(),
         Icons: Icon(Icons.settings_outlined),

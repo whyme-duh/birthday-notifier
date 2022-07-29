@@ -27,26 +27,38 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: BgColor,
       body: Center(
         child: Stack(alignment: Alignment.center, children: <Widget>[
           Positioned(
-              top: size.height * 0.1,
+              top: size.height * 0.01,
               child: Image(
                   image: AssetImage('assets/icon/logo.png'),
                   width: size.width * 0.8,
                   height: size.height * 0.30)),
           Positioned(
-            top: size.height * 0.4,
+            top: size.height * 0.30,
             child: Center(
                 child: Container(
-                    height: size.height * 0.35,
+                    height: size.height * 0.65,
                     width: size.width * 0.8,
                     child: Form(
                         key: _formKey,
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
+                              Align(
+                                child: Text(
+                                  "Login Now",
+                                  style: GoogleFonts.lato(
+                                      textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.black)),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
                               TextFormField(
                                 validator: (val) => val!.isEmpty
                                     ? "This field cannot be empty."
@@ -94,11 +106,36 @@ class _LoginPageState extends State<LoginPage> {
                                       password = val;
                                     });
                                   }),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Forgot Password? / ",
+                                    style: GoogleFonts.lato(
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                            color: WhiteFontColor)),
+                                  ),
+                                  Text("Reset",
+                                      style: GoogleFonts.lato(
+                                          textStyle: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      )))
+                                ],
+                              ),
                               SizedBox(height: 60),
                               InkWell(
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
                                     setState(() {
+                                      if (!mounted) {
+                                        return;
+                                      }
                                       isLoading = true;
                                       SpinKitChasingDots(
                                         color: Colors.black,
@@ -122,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 40,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: Colors.blue[500]),
+                                      color: loginBtnColor),
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
@@ -131,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 17,
-                                              color: Colors.white)),
+                                              color: Colors.black)),
                                     ),
                                   ),
                                 ),
@@ -146,10 +183,6 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Column(
                 children: [
-                  Container(
-                      width: size.width * 0.8,
-                      height: 1,
-                      color: Color.fromRGBO(0, 0, 0, 0.23)),
                   SizedBox(
                     height: 20,
                   ),
@@ -158,19 +191,19 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       children: [
                         Text(
-                          "Don't have an account?",
+                          "If you are new / ",
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
                                   color: WhiteFontColor)),
                         ),
-                        Text("Create an account",
+                        Text("Create New",
                             style: GoogleFonts.lato(
                                 textStyle: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: WhiteFontColor,
+                              fontSize: 13,
+                              color: Colors.black,
                             )))
                       ],
                     ),

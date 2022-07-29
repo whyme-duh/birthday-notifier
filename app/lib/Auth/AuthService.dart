@@ -57,7 +57,7 @@ class AuthService {
           email: email, password: password);
       User? newUser = result.user;
 
-      await DetailDB(collectionName: newUser!.displayName);
+      DetailDB(collectionName: newUser!.displayName);
 
       return _userFromFirebaseUser(newUser);
     } catch (e) {
