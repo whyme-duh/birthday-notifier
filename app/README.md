@@ -1,4 +1,4 @@
-# app
+# Birthday Notifier Built By Whyme 
 
 This is my new app name- Birthday Notifier
 
