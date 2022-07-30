@@ -46,10 +46,9 @@ class _FriendListState extends State<FriendList> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: BgColor,
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       bottomNavigationBar: CustomButtomNavigationBar(size: size, item: "home"),
-      drawer: DrawerMethods(),
+      // drawer: DrawerMethods(),
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -59,6 +58,7 @@ class _FriendListState extends State<FriendList> {
             width: size.width,
             child: Container(
               width: size.width,
+              color: BgColor,
               height: size.height * 0.1,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
@@ -67,7 +67,7 @@ class _FriendListState extends State<FriendList> {
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 20, left: 10, right: 10),
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -145,12 +145,12 @@ class _FriendListState extends State<FriendList> {
                     );
                   }
                   return Container(
-                    width: size.width,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30))),
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        )),
                     child: ListView(
                       children: snapshot.data!.docs.map((document) {
                         return Dismissible(

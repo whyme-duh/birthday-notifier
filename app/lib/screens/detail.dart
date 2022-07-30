@@ -74,112 +74,107 @@ class DetailScreen extends StatelessWidget {
               child: Container(
                 width: size.width,
                 height: size.height * 0.1,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(35),
-                        bottomRight: Radius.circular(35)),
-                    color: BgColor),
+                color: BgColor,
               ),
             ),
             Positioned(
-              top: 20,
+              top: 0,
               left: 0,
               width: size.width,
               height: size.height,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30)),
+                      color: secondBgColor),
                   child: FutureBuilder(
                       future: getHorosocope(zodiac),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return SpinKitCircle(color: Colors.black);
                         }
-                        return Container(
-                          width: size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 30, 0, 20),
-                                        child: Text(name,
-                                            style: GoogleFonts.alegreya(
-                                              textStyle: TextStyle(
-                                                  fontSize: 30,
-                                                  letterSpacing: 2,
-                                                  fontWeight: FontWeight.w700),
-                                            ))),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    SideTitle(title: "DOB : ", date: dob),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SideTitle(
-                                        title: "Zodiac Sign : ", date: zodiac),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SideTitle(
-                                      title: "Age : ",
-                                      date: age,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    SideTitle(
-                                        title: "Next Birthday :",
-                                        date: remDays),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    Container(
-                                      width: size.width * 0.9,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                          color: Colors.blue[50]),
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 10, 10, 20),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              "Horoscope",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 18,
-                                                  letterSpacing: 2),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(
-                                              '${snapshot.data}',
-                                              maxFontSize: 20,
-                                              maxLines: 20,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  letterSpacing: 2),
-                                            )
-                                          ],
+                        return Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 30, 0, 20),
+                                      child: Text(name,
+                                          style: GoogleFonts.alegreya(
+                                            textStyle: TextStyle(
+                                                fontSize: 30,
+                                                letterSpacing: 2,
+                                                fontWeight: FontWeight.w700),
+                                          ))),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  SideTitle(title: "DOB : ", date: dob),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SideTitle(
+                                      title: "Zodiac Sign : ", date: zodiac),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SideTitle(
+                                    title: "Age : ",
+                                    date: age,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SideTitle(
+                                      title: "Next Birthday :", date: remDays),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Container(
+                                    width: size.width * 0.9,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
+                                        color: Colors.blue[50]),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 10, 10, 20),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            "Horoscope",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 18,
+                                                letterSpacing: 2),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          AutoSizeText(
+                                            '${snapshot.data}',
+                                            maxFontSize: 20,
+                                            maxLines: 20,
+                                            style: TextStyle(
+                                                fontSize: 15, letterSpacing: 2),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                         );
                       }),

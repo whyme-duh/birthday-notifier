@@ -83,7 +83,7 @@ class MyNotificationState extends State<MyNotification> {
                 textStyle: TextStyle(
                     fontSize: 20,
                     letterSpacing: 2,
-                    color: WhiteFontColor,
+                    color: Colors.black,
                     fontWeight: FontWeight.w900),
               )),
           backgroundColor: BgColor,
@@ -92,37 +92,23 @@ class MyNotificationState extends State<MyNotification> {
         ),
         body: Stack(
           children: <Widget>[
-            Positioned(
-              top: 0,
-              height: size.height * 0.025,
-              child: Container(
-                width: size.width,
-                height: size.height * 0.025,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(35),
-                        bottomRight: Radius.circular(35)),
-                    color: BgColor),
-              ),
-            ),
-            Positioned(
-              width: size.width,
-              height: size.height,
-              top: size.height * 0.03,
-              child: Center(
-                  child:
-                      TextButton(child: Text("Click Me For"), onPressed: () {}
-                          //   flutterLocalNotificationsPlugin.show(
-                          //       0,
-                          //       "Try",
-                          //       "Hello",
-                          //       NotificationDetails(
-                          //           android: AndroidNotificationDetails(
-                          //               channel.id, channel.name,
-                          //               importance: Importance.max)));
-                          // },
-                          )),
-            )
+            Center(
+                child: Text("No Notification Yet",
+                    style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                      fontSize: 15,
+                    )
+                        //   flutterLocalNotificationsPlugin.show(
+                        //       0,
+                        //       "Try",
+                        //       "Hello",
+                        //       NotificationDetails(
+                        //           android: AndroidNotificationDetails(
+                        //               channel.id, channel.name,
+                        //               importance: Importance.max)));
+                        // },
+
+                        )))
           ],
         ));
   }

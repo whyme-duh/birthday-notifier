@@ -48,11 +48,11 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Align(
                                 child: Text(
-                                  "Login Now",
-                                  style: GoogleFonts.lato(
+                                  "Login",
+                                  style: GoogleFonts.lobsterTwo(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+                                          fontSize: 30,
                                           color: Colors.black)),
                                 ),
                               ),
@@ -155,8 +155,8 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 },
                                 child: Container(
-                                  width: size.width * 0.8,
-                                  height: 40,
+                                  width: size.width * 0.6,
+                                  height: 50,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: loginBtnColor),

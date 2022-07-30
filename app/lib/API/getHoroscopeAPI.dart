@@ -15,19 +15,20 @@ Future<String> getHorosocope(String sign) async {
     });
     Map detail = jsonDecode(res.body);
     horoscopeList.addAll({'${detail['$sign']}': '${detail['Today']}'});
-    // print(horoscopeList);
-    // print('\n');
+    print(horoscopeList);
+    print('\n');
     if (hasInternet = await InternetConnectionChecker().hasConnection) {
       return detail['$sign']['Today'];
     }
     return "No internet! Try again ";
   } catch (e) {
+    print(e);
     return "Error occured! Try again.";
   }
 }
 
 void main() {
-  print(horoscopeList);
+  getHorosocope("Cancer");
 }
 
 Future<String> getLoveMatching(String sign) async {

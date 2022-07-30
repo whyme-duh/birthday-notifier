@@ -42,50 +42,34 @@ class _HoroscopeState extends State<Horoscope> {
     return Scaffold(
       bottomNavigationBar:
           CustomButtomNavigationBar(size: size, item: "horoscope"),
-      appBar: AppBar(
-        backgroundColor: BgColor,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
-      body: Stack(children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          height: size.height * 0.15,
-          width: size.width,
-          child: Container(
-            width: size.width,
-            height: size.height * 0.15,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(35),
-                    bottomRight: Radius.circular(35)),
-                color: BgColor),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("Daily Horoscope",
-                      style: GoogleFonts.alegreya(
-                        textStyle: TextStyle(
-                            fontSize: 30,
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.w900),
-                      ))
-                ],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          top: size.height * 0.1,
-          right: 0,
-          height: size.height * 0.8,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-            child: Expanded(
+      body: SafeArea(
+        child: Stack(children: <Widget>[
+          Positioned(
+              top: 0,
+              child: Container(
+                height: size.height * 0.12,
+                width: size.width,
+                color: BgColor,
+                child: Center(
+                    child: Text(
+                  "Daily Horoscope",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2),
+                )),
+              )),
+          Positioned(
+            left: 0,
+            top: size.height * 0.09,
+            right: 0,
+            height: size.height * 0.8,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30))),
               child: ListView.builder(
                 itemCount: sunSign.length,
                 itemBuilder: (context, index) {
@@ -93,11 +77,10 @@ class _HoroscopeState extends State<Horoscope> {
                     future: getHorosocope(sunSign[index]),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
                           child: Container(
-                              width: size.width * 0.9,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Color.fromARGB(255, 203, 226, 238)),
@@ -124,7 +107,7 @@ class _HoroscopeState extends State<Horoscope> {
                                   ],
                                 ),
                               )),
-                        ));
+                        );
                       } else {
                         return SpinKitChasingDots(
                           size: 10,
@@ -137,8 +120,11 @@ class _HoroscopeState extends State<Horoscope> {
               ),
             ),
           ),
-        ),
-      ]),
+          // Positioned(
+          //     bottom: 0,
+          //     child: CustomButtomNavigationBar(size: size, item: "horoscope"))
+        ]),
+      ),
     );
   }
 }

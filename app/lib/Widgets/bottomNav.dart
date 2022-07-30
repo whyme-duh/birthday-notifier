@@ -1,6 +1,7 @@
 import 'package:app/Models/profile.dart';
 import 'package:app/functionality/friendlist.dart';
 import 'package:app/screens/notificationPage.dart';
+import 'package:app/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/horoscopeFinder.dart';
@@ -49,13 +50,9 @@ class _CustomButtomNavigationBarState extends State<CustomButtomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
+      padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: widget.size.height,
-        height: widget.size.height * 0.08,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(15, 185, 183, 182).withOpacity(0.5),
-            borderRadius: BorderRadius.all(Radius.circular(30))),
+        width: widget.size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -69,7 +66,7 @@ class _CustomButtomNavigationBarState extends State<CustomButtomNavigationBar> {
             ),
             // horoscope Icon
             IconButton(
-              icon: Icon(horoscopeActive ? Icons.list : Icons.list_outlined),
+              icon: Icon(horoscopeActive ? Icons.star : Icons.star_outline),
               onPressed: () {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => Horoscope()));
