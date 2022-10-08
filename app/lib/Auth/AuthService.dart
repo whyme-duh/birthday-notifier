@@ -1,18 +1,61 @@
+import 'package:app/Auth/loginpage.dart';
 import 'package:app/Database/detailDB.dart';
 import 'package:app/Models/user.dart';
+import 'package:app/wrapper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:uuid/uuid.dart';
-
-var id = Uuid();
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GoogleSignIn _googleSign = GoogleSignIn();
   final String NameId = id.v1();
 
+  Future<String> SignUpUser(
+      {required String email,
+      required String password,
+      required String username,
+      required String dob}) async {
+    String result = "Error has been occured";
+    try {
+      if (email.isNotEmpty ||
+          username.isNotEmpty ||
+          password.isNotEmpty ||
+          dob.isNotEmpty) {
+        UserCredential cred = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        _firestore.collection("Users").doc(cred.user!.uid).set({
+          'username': username,
+          'uid': cred.user!.uid,
+          'email': email,
+          'dob': dob
+        });
+        result = "sucess";
+      }
+    } catch (err) {
+      result = err.toString();
+      return result;
+    }
+    return result;
+  }
+
   UserProfile? _userFromFirebaseUser(User user) {
-    return user != null ? UserProfile(uid: user.uid) : null;
+    return user != null
+        ? UserProfile(
+            uid: user.uid,
+          )
+        : null;
+  }
+
+  Future<String> getUserUID() async {
+    return (await _auth.currentUser!).uid;
+  }
+
+  Future getCurrentUser() async {
+    return (await _auth.currentUser);
   }
 
   Stream<UserProfile?> get user {
@@ -51,28 +94,33 @@ class AuthService {
     }
   }
 
-  Future registerWithEmailPassword(String email, String password) async {
+  // Future registerWithEmailPassword(
+  //     String name, String email, String password) async {
+  //   try {
+  //     UserCredential result = await _auth.createUserWithEmailAndPassword(
+  //         email: email, password: password);
+  //     User? newUser = result.user;
+  //     newUser?.updateDisplayName(name);
+
+  //     return _userFromFirebaseUser(newUser);
+  //   } catch (e) {
+  //     print(e.toString());
+  //     return null;
+  //   }
+  // }
+
+  signOut() async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      User? newUser = result.user;
-
-      DetailDB(collectionName: newUser!.displayName);
-
-      return _userFromFirebaseUser(newUser);
+      await _auth.signOut();
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  Future signOut() async {
-    try {
-      return await _auth.signOut();
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
+  void main() {
+    final AuthService _auth = AuthService();
+    print(_auth.getUserUID());
   }
 
   Future<void> signOutFromGmail() async {

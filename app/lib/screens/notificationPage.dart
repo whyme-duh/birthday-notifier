@@ -16,8 +16,10 @@ class MyNotification extends StatefulWidget {
 }
 
 class MyNotificationState extends State<MyNotification> {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String notificationTitle = "";
 
+  String notificationBody = "";
   _getToken() {
     _firebaseMessaging.getToken().then((deviceToken) {
       print("$deviceToken");
@@ -28,6 +30,13 @@ class MyNotificationState extends State<MyNotification> {
   void initState() {
     super.initState();
     _getToken();
+    FirebaseMessaging.instance.getInitialMessage();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      setState(() {
+        notificationTitle = message.notification!.title.toString();
+        notificationBody = message.notification!.body.toString();
+      });
+    });
   }
   // @override
   // void initState() {
@@ -76,40 +85,53 @@ class MyNotificationState extends State<MyNotification> {
     return Scaffold(
         bottomNavigationBar:
             CustomButtomNavigationBar(size: size, item: "notification"),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Notification",
-              style: GoogleFonts.alegreya(
-                textStyle: TextStyle(
-                    fontSize: 20,
-                    letterSpacing: 2,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900),
-              )),
-          backgroundColor: BgColor,
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.black),
-        ),
-        body: Stack(
-          children: <Widget>[
-            Center(
-                child: Text("No Notification Yet",
-                    style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                      fontSize: 15,
-                    )
-                        //   flutterLocalNotificationsPlugin.show(
-                        //       0,
-                        //       "Try",
-                        //       "Hello",
-                        //       NotificationDetails(
-                        //           android: AndroidNotificationDetails(
-                        //               channel.id, channel.name,
-                        //               importance: Importance.max)));
-                        // },
-
-                        )))
-          ],
+        body: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: 0,
+                  child: Container(
+                    height: size.height * 0.1,
+                    width: size.width,
+                    color: BgColor,
+                    child: Center(
+                        child: Text(
+                      "Notification",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2),
+                    )),
+                  )),
+              Positioned(
+                top: size.height * 0.08,
+                width: size.width,
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30))),
+                  child: Center(
+                    child: Container(
+                      width: size.width * 0.9,
+                      height: size.height * 0.09,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.grey[200]),
+                      child: Column(
+                        children: [
+                          Text(notificationTitle),
+                          Text(notificationBody),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }

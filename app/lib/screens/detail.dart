@@ -1,8 +1,12 @@
 import 'package:app/API/getHoroscopeAPI.dart';
+import 'package:app/Database/detailDB.dart';
 import 'package:app/Widgets/bottomNav.dart';
+import 'package:app/functionality/function(adding).dart';
+import 'package:app/functionality/updating.dart';
 import 'package:app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -22,6 +26,8 @@ class DetailScreen extends StatelessWidget {
   final String age;
   final String remDays;
 
+  DetailDB _detailDb = DetailDB();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -31,13 +37,27 @@ class DetailScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: BgColor,
+          backgroundColor: Colors.white,
+          // centerTitle: true,
+          // title: Text(
+          //   name,
+          //   style: GoogleFonts.alegreya(
+          //     textStyle: TextStyle(
+          //         fontSize: 25,
+          //         letterSpacing: 1,
+          //         color: Colors.black,
+          //         fontWeight: FontWeight.w700),
+          //   ),
+          // ),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    // updateDialog(context);
+                    Fluttertoast.showToast(msg: "Opss! Not Now!");
+                  },
                   child: Container(
                     width: 80,
                     height: 35,
@@ -46,9 +66,14 @@ class DetailScreen extends StatelessWidget {
                       color: Color.fromRGBO(122, 118, 118, 0.2),
                     ),
                     child: Center(
-                        child: Text(
-                      "Edit",
-                      style: TextStyle(color: Colors.black),
+                        child: InkWell(
+                      onTap: () {
+                        Fluttertoast.showToast(msg: "Opss! Not Now!");
+                      },
+                      child: Text(
+                        "Edit",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     )),
                   ),
                 ),
@@ -56,7 +81,9 @@ class DetailScreen extends StatelessWidget {
                   width: 20,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Fluttertoast.showToast(msg: "Opss! Not Now!");
+                    },
                     icon: Icon(
                       Icons.favorite,
                     ))
@@ -85,10 +112,10 @@ class DetailScreen extends StatelessWidget {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                      color: secondBgColor),
+                      // borderRadius: BorderRadius.only(
+                      //     topLeft: Radius.circular(30),
+                      //     topRight: Radius.circular(30)),
+                      color: Colors.white),
                   child: FutureBuilder(
                       future: getHorosocope(zodiac),
                       builder: (context, snapshot) {
@@ -101,20 +128,28 @@ class DetailScreen extends StatelessWidget {
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Padding(
                                       padding: const EdgeInsets.fromLTRB(
-                                          0, 30, 0, 20),
-                                      child: Text(name,
-                                          style: GoogleFonts.alegreya(
-                                            textStyle: TextStyle(
-                                                fontSize: 30,
-                                                letterSpacing: 2,
-                                                fontWeight: FontWeight.w700),
-                                          ))),
+                                          0, 0, 0, 20),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(name,
+                                            style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  fontSize: 25,
+                                                  letterSpacing: 1,
+                                                  fontWeight: FontWeight.w700),
+                                            )),
+                                      )),
+                                  Container(
+                                    width: size.width,
+                                    height: 1,
+                                    color: Color.fromARGB(255, 138, 138, 138),
+                                  ),
                                   SizedBox(
-                                    height: 30,
+                                    height: 20,
                                   ),
                                   SideTitle(title: "DOB : ", date: dob),
                                   SizedBox(

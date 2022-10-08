@@ -6,9 +6,6 @@ var id = Uuid();
 
 class DetailDB {
   final String NameId = id.v1();
-  final String? collectionName;
-
-  DetailDB({required this.collectionName});
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool haveData = false;
@@ -16,37 +13,25 @@ class DetailDB {
   AuthService _auth = AuthService();
 
   Future UpdateUserData() async {}
-  Future createCollection() async {
-    _firestore.collection(collectionName!);
-  }
 
-  Future takeDetail(String name, String date) async {
+  Future takeDetail(String uid, String name, String date) async {
     // creates a database on the name of details
     _firestore
-        .collection("collectionName")
-        .doc(NameId)
-        .set({'Name': name, "Date": date, "createdAt": DateTime.now()});
+        .collection("UserData")
+        .doc(uid)
+        .collection("FriendList")
+        .add({'Name': name, "Date": date, "createdAt": DateTime.now()});
   }
 
-  void updateDetail(String NewName, String newDate) {
-    _firestore.collection("collectionName").doc(NameId).update({
-      "Name": NewName,
+  void updateDetail(String uid, String token, String newName, String newDate) {
+    _firestore
+        .collection("UserData")
+        .doc(uid)
+        .collection("FriendList")
+        .doc(token)
+        .update({
+      "Name": newName,
       "Date": newDate,
     });
-  }
-
-  bool checkIfExist() {
-    _firestore
-        .collection("collectionName")
-        .doc(NameId)
-        .get()
-        .then((DocumentSnapshot snapshot) {
-      if (snapshot.exists) {
-        haveData = true;
-      } else {
-        haveData = false;
-      }
-    });
-    return true;
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class LoginPage extends StatefulWidget {
   final Function toggleView;
@@ -12,7 +14,8 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -23,8 +26,39 @@ class _LoginPageState extends State<LoginPage> {
   String password = '';
   String error = '';
   bool _isHidden = true;
+  late AnimationController _controller;
+  late double _scale;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 500),
+        lowerBound: 0.0,
+        upperBound: 0.1)
+      ..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  void _tapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _tapUp(TapUpDetails details) {
+    _controller.reverse();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _scale = 1 - _controller.value;
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
@@ -49,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                               Align(
                                 child: Text(
                                   "Login",
-                                  style: GoogleFonts.lobsterTwo(
+                                  style: GoogleFonts.acme(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 30,
@@ -109,66 +143,160 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Forgot Password? / ",
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 13,
-                                            color: WhiteFontColor)),
-                                  ),
-                                  Text("Reset",
-                                      style: GoogleFonts.lato(
-                                          textStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                      )))
-                                ],
-                              ),
-                              SizedBox(height: 60),
                               InkWell(
-                                onTap: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    setState(() {
-                                      if (!mounted) {
-                                        return;
-                                      }
-                                      isLoading = true;
-                                      SpinKitChasingDots(
-                                        color: Colors.black,
-                                      );
-                                    });
-                                    dynamic result =
-                                        await _auth.signInEmailPassword(
-                                            email.trim(), password);
-                                    if (result == null) {
-                                      setState(() {
-                                        Fluttertoast.showToast(
-                                            backgroundColor: Colors.red,
-                                            msg:
-                                                "Given Credentials does not match. Try Again!");
-                                      });
-                                    }
-                                  }
+                                onTap: () {
+                                  Fluttertoast.showToast(
+                                      msg: "Opps! Maybe Later? LOL",
+                                      backgroundColor: Colors.red);
                                 },
-                                child: Container(
-                                  width: size.width * 0.6,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: loginBtnColor),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "SIGN IN ",
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Forgot Password? / ",
                                       style: GoogleFonts.lato(
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 17,
-                                              color: Colors.black)),
+                                              fontSize: 13,
+                                              color: WhiteFontColor)),
+                                    ),
+                                    Text("Reset",
+                                        style: GoogleFonts.lato(
+                                            textStyle: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                          color: Colors.black,
+                                        )))
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 60),
+                              GestureDetector(
+                                onTapDown: _tapDown,
+                                onTapUp: _tapUp,
+                                child: InkWell(
+                                  onTap: () async {
+                                    var hasInternet =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (hasInternet) {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          if (!mounted) {
+                                            return;
+                                          }
+                                          isLoading = true;
+                                          SpinKitFadingCircle(
+                                            size: 10,
+                                            color: Colors.black,
+                                          );
+                                        });
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Center(
+                                                child: SpinKitDualRing(
+                                                    color: Colors.deepPurple),
+                                              );
+                                            });
+                                        dynamic result =
+                                            await _auth.signInEmailPassword(
+                                                email.trim(), password);
+                                        if (result == null) {
+                                          setState(() {
+                                            Fluttertoast.showToast(
+                                                backgroundColor: Colors.red,
+                                                msg:
+                                                    "Given Credentials does not match. Try Again!");
+                                          });
+                                        }
+
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Container(
+                                          padding: EdgeInsets.all(16),
+                                          height: 90,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: Stack(children: [
+                                            Positioned(
+                                                top: -5,
+                                                child: InkWell(
+                                                    onTap: () {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .clearSnackBars();
+                                                    },
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      color: Colors.red,
+                                                    ))),
+                                            Positioned(
+                                              top: 10,
+                                              left: 0,
+                                              right: 0,
+                                              child: Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.error_rounded,
+                                                        size: 30,
+                                                        color: Colors.red,
+                                                      ),
+                                                      Text(
+                                                        "Error! No Internet",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 15,
+                                                            letterSpacing: 2,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ));
+                                    }
+                                  },
+                                  child: Transform.scale(
+                                    scale: _scale,
+                                    child: Container(
+                                      width: size.width * 0.6,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: loginBtnColor),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "SIGN IN ",
+                                          style: GoogleFonts.lato(
+                                              textStyle: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 17,
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -176,7 +304,7 @@ class _LoginPageState extends State<LoginPage> {
                             ])))),
           ),
           Positioned(
-            top: size.height * 0.8,
+            top: size.height * 0.85,
             child: InkWell(
               onTap: () {
                 widget.toggleView();

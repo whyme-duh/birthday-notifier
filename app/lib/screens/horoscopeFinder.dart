@@ -27,7 +27,7 @@ class _HoroscopeState extends State<Horoscope> {
     "Libra",
     "Scorpio",
     "Sagittarius",
-    "Capricon",
+    "Capricorn",
     "Aquarius",
     "Pisces",
   ];
@@ -47,75 +47,78 @@ class _HoroscopeState extends State<Horoscope> {
           Positioned(
               top: 0,
               child: Container(
-                height: size.height * 0.12,
+                height: size.height * 0.07,
                 width: size.width,
                 color: BgColor,
-                child: Center(
-                    child: Text(
-                  "Daily Horoscope",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 2),
-                )),
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Daily Horoscope",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 3),
+                      ),
+                    )),
               )),
           Positioned(
             left: 0,
-            top: size.height * 0.09,
+            top: size.height * 0.07,
             right: 0,
             height: size.height * 0.8,
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30))),
+                color: Colors.white,
+              ),
               child: ListView.builder(
                 itemCount: sunSign.length,
                 itemBuilder: (context, index) {
                   return FutureBuilder<String>(
-                    future: getHorosocope(sunSign[index]),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromARGB(255, 203, 226, 238)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${sunSign[index]}',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: 2),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      '${snapshot.data}',
-                                      style: TextStyle(letterSpacing: 2),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        );
-                      } else {
-                        return SpinKitChasingDots(
-                          size: 10,
-                          color: Colors.black,
-                        );
-                      }
-                    },
-                  );
+                      future: getHorosocope(sunSign[index]),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: cardColor),
+                                // color: Color.fromARGB(255, 203, 226, 238)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${sunSign[index]}',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 2),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        '${snapshot.data}',
+                                        style: TextStyle(letterSpacing: 2),
+                                      )
+                                    ],
+                                  ),
+                                )),
+                          );
+                        }
+                        return (Center(
+                          child: SpinKitPulse(
+                            color: Colors.black,
+                            size: 15,
+                          ),
+                        ));
+                      });
                 },
               ),
             ),
